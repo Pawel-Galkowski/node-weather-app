@@ -1,14 +1,4 @@
-var fetchWeather = "/weather";
-
 const weatherForm = document.querySelector('form');
-const search = document.querySelector('input');
-
-const weatherIcon = document.querySelector('.weatherIcon i');
-const weatherCondition = document.querySelector('.weatherCondition');
-
-const tempElement = document.querySelector('.temperature span');
-
-const locationElement = document.querySelector('.place');
 
 const dateElement = document.querySelector('.date');
 
@@ -19,10 +9,13 @@ dateElement.textContent = new Date().getDate() + ", " + monthNames[new Date().ge
 
 weatherForm.addEventListener('submit', (event) => {
     event.preventDefault();
+    const weatherCondition = document.querySelector('.weatherCondition');
+    const tempElement = document.querySelector('.temperature span');
+    const locationElement = document.querySelector('.place');
     locationElement.textContent = "Loading...";
     tempElement.textContent = "";
     weatherCondition.textContent = "";
-    const locationApi = fetchWeather + "?address=" + search.value;
+    const locationApi = "/weather" + "?address=" + document.querySelector('input').value;
     fetch(locationApi).then(response => {
         response.json().then(data => {
             if(data.error) {
@@ -30,7 +23,7 @@ weatherForm.addEventListener('submit', (event) => {
                 tempElement.textContent = "";
                 weatherCondition.textContent = "";
             } else {
-                console.log()
+                const weatherIcon = document.querySelector('.weatherIcon i');
                 if(data.description === "rain" || data.description === "fog") {
                     weatherIcon.className = "wi wi-day-" + data.description
                 } else {
